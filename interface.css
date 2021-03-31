@@ -1,0 +1,19 @@
+body{
+    padding-top: 30px;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: bisque;
+    color: black;
+    text-align: center;
+}
+p{
+    font-size: 20px;
+    display: block;
+    margin: 5px;
+}
+h1{
+    font-size: 30px;
+}
+.dark-mode{
+    background-color:darkslategrey;
+    color: white;
+}
