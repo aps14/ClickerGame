@@ -2,7 +2,6 @@
 <link rel="stylesheet" type="text/css" href="interface.css" />
 <html>
     <head>
-
         <title>Idle Game</title>
 
         <meta name="description" content="Idle Game">
@@ -14,11 +13,16 @@
         <h1>Clicker Game Basics</h1>
         <p>
             <button onclick="clickButton(1)">Clicks</button><br>
-            <span id= "clicks">0</span><br>
+            <span id="clicks">0</span><br>
             <button onclick="autoClicker(1)">Buy AutoClicker</button><br>
             Cursors: <span id="clickers">0</span><br>
-            Cost: <span id="clickerCost">10</span>
+            Cost: <span id="clickerCost">10</span><br>
+
+            <button onclick="saveGame()">save</button>
+            <button onclick="getCookie()">Load</button>
+            <button onclick="clearCookies()">clearCookies</button>
         </p>
+        <p id="out"></p>
 
         <script type="text/javascript" src="main.js"></script>
     </body>
