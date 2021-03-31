@@ -1,7 +1,7 @@
-var cookies = {};
 var clicks = 0;
 var clickers = 0;
-var clickerCost = 15;
+var clickerCost = 10;
+var darkMode = false;
 
 function clickButton(addTo){
     clicks = clicks + addTo;
@@ -9,69 +9,61 @@ function clickButton(addTo){
 }
 
 function autoClicker(){
-    clickerCost = Math.floor(10 * Math.pow(1.5,clickers));
     if(clicks >= clickerCost){
         clickers = clickers + 1;
         clicks = clicks - clickerCost;
         document.getElementById('clickers').innerHTML = clickers;
         document.getElementById('clicks').innerHTML = clicks;
+        clickerCost = Math.floor(10 * Math.pow(1.5,clickers));
+        document.getElementById('clickerCost').innerHTML = clickerCost;
     }
-    clickerCost = Math.floor(10 * Math.pow(1.5,clickers));
-    document.getElementById('clickerCost').innerHTML = clickerCost;
 }
 
 function toggleDarkMode(){
     var getBody = document.body;
     getBody.classList.toggle("dark-mode");
+    if(document.body.style.color == "white"){
+        darkMode = false;
+    }else{
+        darkMode = true;
+    }
 }
 
 function saveGame(){
-    cookies["_clicks"] = clicks;
-    cookies["_clickers"] = clickers;
-    cookies["_clickerCost"] = clickerCost;
-
-    var dateVal = new Date();
-    dateVal = dateVal.setFullYear(dateVal.getFullYear() + 1).toString;
-
-    document.cookie = "";
-    var cookieString = "";
-    for (var value in cookies){
-        cookieString = value + "="+cookies[value]+"; expires="+dateVal+";";
-        document.cookie = cookieString;
-    }
-
-    document.getElementById("out").innerHTML = document.cookie;
+    localStorage.setItem("clicks", clicks);
+    localStorage.setItem("clickers", clickers);
+    localStorage.setItem("clickerCost", clickerCost);
+    localStorage.setItem("darkMode", darkMode);
 }
 
-function getCookie(){
-    cookies = {};
-    var cookieArray = document.cookie.split(";");
-    for (var id in kv){
-        var cookie = kv[id].split("=");
-        cookies[cookie[0].trim()] = cookie[1];
-    }
-    clicks = cookies["_clicks"];
-    clickers = cookies["_clickers"];
-    clickerCost = cookies["_clickerCost"];
-}
-function checkCookie(){
-    var value = getCookie("clicks");
-    if(value != ""){
-        getCookie();
+function getLocal(){
+    if(localStorage.getItem("clicks") != null){
+    clicks = JSON.parse(localStorage.getItem("clicks"));
+    clickers = JSON.parse(localStorage.getItem("clickers"));
+    clickerCost = JSON.parse(localStorage.getItem("clickerCost"));
+    darkMode = JSON.parse(localStorage.getItem("darkMode"));
     }
     else{
-        clickers = 0;
         clicks = 0;
+        clickers = 0;
+        clickerCost = 10;
     }
-}
-function clearCookies(){
-    document.cookie = "";
-    getCookie();
+    document.getElementById("clickers").innerHTML = clickers;
+    document.getElementById("clicks").innerHTML = clicks;
+    document.getElementById("clickerCost").innerHTML = clickerCost;
 }
 
-//window.onload = (checkCookie())
+function clearLocal(){
+    localStorage.clear();
+}
+function startUp(){
+    getLocal();
+    if(darkMode){
+        toggleDarkMode();
+    }
+}
 
 window.setInterval(function(){
     clickButton(clickers);
-    //saveGame();
+    saveGame();
 },1000);
